@@ -12,7 +12,7 @@ import (
 
 func main() {
 	//initializr db
-	dbConn, err := db.NewPostgreSql(fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	dbConn, err := db.NewPostgreSql(fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		config.Envs.DBHost,
 		config.Envs.DBPort,
 		config.Envs.DBUser,
@@ -20,12 +20,12 @@ func main() {
 		config.Envs.DBName, 
 	))
 
-	if err !=nil {
-		log.Fatal("error in initializing the db")
+	if err != nil {
+		log.Fatal("error in opening the database: ", err)
 	}
 
-	if err :=  initDB(dbConn); err!= nil {
-		log.Fatal("error in initializing the db")
+	if err := initDB(dbConn); err != nil {
+		log.Fatal("error in connecting to the database: ", err)
 	}
 	// start api server
 	apiServer := api.NewAPIServer(":8080")
